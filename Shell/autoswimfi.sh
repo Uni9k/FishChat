@@ -16,11 +16,11 @@ unzip -qo "$SOURCEIPA" -d extracted
 
 APPLICATION=$(ls extracted/Payload/)
 
-echo "Copying dylib and mobileprovision"
+# echo "Copying dylib and mobileprovision"
 cp "$DYLIB" "extracted/Payload/$APPLICATION/${DYLIB##*/}"
 cp "$MOBILEPROV" "extracted/Payload/$APPLICATION/embedded.mobileprovision"
 
-echo "Insert dylib into Mach-O file"
+# echo "Insert dylib into Mach-O file"
 yololib "extracted/Payload/$APPLICATION/${APPLICATION%.*}" "${DYLIB##*/}"
 
 echo "Resigning with certificate: $DEVELOPER"
@@ -41,7 +41,3 @@ rm directories.txt
 rm cers.txt
 rm t_entitlements.plist
 rm t_entitlements_full.plist
-echo "Installing APP to your iOS Device"
-mobiledevice install_app extracted.ipa
-
-# rm extracted.ipa

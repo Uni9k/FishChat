@@ -124,7 +124,7 @@ CHDeclareMethod0(void, AddContactToChatRoomViewController, reloadTableData)
     NSString *userName = [FishConfigurationCenter sharedInstance].currentUserName;
     MMTableViewInfo *tableInfo = [self valueForKeyPath:@"m_tableViewInfo"];
     MMTableViewSectionInfo *sectionInfo = [tableInfo getSectionAt:1];
-    MMTableViewCellInfo *ignoreCellInfo = [objc_getClass("MMTableViewCellInfo") switchCellForSel:@selector(handleIgnoreChatRoom:) target:[FishConfigurationCenter sharedInstance] title:@"屏蔽此傻逼" on:[FishConfigurationCenter sharedInstance].chatIgnoreInfo[userName].boolValue];
+    MMTableViewCellInfo *ignoreCellInfo = [objc_getClass("MMTableViewCellInfo") switchCellForSel:@selector(handleIgnoreChatRoom:) target:[FishConfigurationCenter sharedInstance] title:@"屏蔽此人" on:[FishConfigurationCenter sharedInstance].chatIgnoreInfo[userName].boolValue];
     [sectionInfo addCell:ignoreCellInfo];
     MMTableView *tableView = [tableInfo getTableView];
     [tableView reloadData];
@@ -158,68 +158,68 @@ CHDeclareMethod2(BOOL, CSyncBaseEvent, BatchAddMsg, BOOL, arg1, ShowPush, BOOL, 
 //    return CHSuper2(CMessageMgr, GetMsg, arg1, LocalID, arg2);
 //}
 
-// 关闭朋友圈入口
-CHOptimizedMethod2(self, CGFloat, FindFriendEntryViewController, tableView, UITableView *, tableView, heightForRowAtIndexPath, NSIndexPath *, indexPath)
-{
-    NSIndexPath *timelineIndexPath = [self valueForKeyPath:@"m_WCTimeLineIndexPath"];
-    if ([indexPath isEqual: timelineIndexPath] || indexPath.section == 2) {
-        NSLog(@"## Hide Time Line Entry ##");
-        return 0;
-    }
-    return CHSuper2(FindFriendEntryViewController, tableView, tableView, heightForRowAtIndexPath, indexPath);
-}
+//// 关闭朋友圈入口
+//CHOptimizedMethod2(self, CGFloat, FindFriendEntryViewController, tableView, UITableView *, tableView, heightForRowAtIndexPath, NSIndexPath *, indexPath)
+//{
+//    NSIndexPath *timelineIndexPath = [self valueForKeyPath:@"m_WCTimeLineIndexPath"];
+//    if ([indexPath isEqual: timelineIndexPath] || indexPath.section == 2) {
+//        NSLog(@"## Hide Time Line Entry ##");
+//        return 0;
+//    }
+//    return CHSuper2(FindFriendEntryViewController, tableView, tableView, heightForRowAtIndexPath, indexPath);
+//}
+//
+//CHOptimizedMethod2(self, UITableViewCell *, FindFriendEntryViewController, tableView, UITableView *, tableView, cellForRowAtIndexPath, NSIndexPath *, indexPath)
+//{
+//    NSIndexPath *timelineIndexPath = [self valueForKeyPath:@"m_WCTimeLineIndexPath"];
+//    UITableViewCell *cell = CHSuper2(FindFriendEntryViewController, tableView, tableView, cellForRowAtIndexPath, indexPath);
+//    if ([indexPath isEqual: timelineIndexPath] || indexPath.section == 2) {
+//        NSLog(@"## Hide Time Line Entry ##");
+//        cell.hidden = YES;
+//        for (UIView *subview in cell.subviews) {
+//            [subview removeFromSuperview];
+//        }
+//    }
+//    return cell;
+//}
+//
+//CHOptimizedMethod1(self, void, FindFriendEntryViewController, viewDidAppear, BOOL, animated)
+//{
+//    CHSuper1(FindFriendEntryViewController, viewDidAppear, animated);
+//    [self performSelector:@selector(reloadData)];
+//}
 
-CHOptimizedMethod2(self, UITableViewCell *, FindFriendEntryViewController, tableView, UITableView *, tableView, cellForRowAtIndexPath, NSIndexPath *, indexPath)
-{
-    NSIndexPath *timelineIndexPath = [self valueForKeyPath:@"m_WCTimeLineIndexPath"];
-    UITableViewCell *cell = CHSuper2(FindFriendEntryViewController, tableView, tableView, cellForRowAtIndexPath, indexPath);
-    if ([indexPath isEqual: timelineIndexPath] || indexPath.section == 2) {
-        NSLog(@"## Hide Time Line Entry ##");
-        cell.hidden = YES;
-        for (UIView *subview in cell.subviews) {
-            [subview removeFromSuperview];
-        }
-    }
-    return cell;
-}
-
-CHOptimizedMethod1(self, void, FindFriendEntryViewController, viewDidAppear, BOOL, animated)
-{
-    CHSuper1(FindFriendEntryViewController, viewDidAppear, animated);
-    [self performSelector:@selector(reloadData)];
-}
-
-// 去掉 TabBar 小红点
-
-CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeImage, id, arg1, forIndex, unsigned int, arg2)
-{
-    if (arg2 != 2 && arg2 != 3) {
-        CHSuper2(MMTabBarController, setTabBarBadgeImage, arg1, forIndex, arg2);
-    }
-}
-
-CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeString, id, arg1, forIndex, unsigned int, arg2)
-{
-    if (arg2 != 2 && arg2 != 3) {
-        CHSuper2(MMTabBarController, setTabBarBadgeString, arg1, forIndex, arg2);
-    }
-}
-
-CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeValue, id, arg1, forIndex, unsigned int, arg2)
-{
-    if (arg2 != 2 && arg2 != 3) {
-        CHSuper2(MMTabBarController, setTabBarBadgeValue, arg1, forIndex, arg2);
-    }
-}
-
-// 去掉各种小红点
-
-CHOptimizedMethod1(self, void, UIView, didAddSubview, UIView *, subview)
-{
-    if ([subview isKindOfClass:NSClassFromString(@"MMBadgeView")]) {
-        subview.hidden = YES;
-    }
-}
+//// 去掉 TabBar 小红点
+//
+//CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeImage, id, arg1, forIndex, unsigned int, arg2)
+//{
+//    if (arg2 != 2 && arg2 != 3) {
+//        CHSuper2(MMTabBarController, setTabBarBadgeImage, arg1, forIndex, arg2);
+//    }
+//}
+//
+//CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeString, id, arg1, forIndex, unsigned int, arg2)
+//{
+//    if (arg2 != 2 && arg2 != 3) {
+//        CHSuper2(MMTabBarController, setTabBarBadgeString, arg1, forIndex, arg2);
+//    }
+//}
+//
+//CHOptimizedMethod2(self, void, MMTabBarController, setTabBarBadgeValue, id, arg1, forIndex, unsigned int, arg2)
+//{
+//    if (arg2 != 2 && arg2 != 3) {
+//        CHSuper2(MMTabBarController, setTabBarBadgeValue, arg1, forIndex, arg2);
+//    }
+//}
+//
+//// 去掉各种小红点
+//
+//CHOptimizedMethod1(self, void, UIView, didAddSubview, UIView *, subview)
+//{
+//    if ([subview isKindOfClass:NSClassFromString(@"MMBadgeView")]) {
+//        subview.hidden = YES;
+//    }
+//}
 
 // 微信运动步数
 
@@ -247,8 +247,8 @@ CHDeclareMethod0(void, NewSettingViewController, reloadTableData)
     CHSuper0(NewSettingViewController, reloadTableData);
     MMTableViewInfo *tableInfo = [self valueForKeyPath:@"m_tableViewInfo"];
     MMTableViewSectionInfo *sectionInfo = [objc_getClass("MMTableViewSectionInfo") sectionInfoDefaut];
-    MMTableViewCellInfo *nightCellInfo = [objc_getClass("MMTableViewCellInfo") switchCellForSel:@selector(handleNightMode:) target:[FishConfigurationCenter sharedInstance] title:@"夜间模式" on:[FishConfigurationCenter sharedInstance].isNightMode];
-    [sectionInfo addCell:nightCellInfo];
+//    MMTableViewCellInfo *nightCellInfo = [objc_getClass("MMTableViewCellInfo") switchCellForSel:@selector(handleNightMode:) target:[FishConfigurationCenter sharedInstance] title:@"夜间模式" on:[FishConfigurationCenter sharedInstance].isNightMode];
+//    [sectionInfo addCell:nightCellInfo];
     MMTableViewCellInfo *stepcountCellInfo = [objc_getClass("MMTableViewCellInfo") editorCellForSel:@selector(handleStepCount:) target:[FishConfigurationCenter sharedInstance] title:@"微信运动步数" margin:300.0 tip:@"请输入步数" focus:NO text:[NSString stringWithFormat:@"%ld", (long)[FishConfigurationCenter sharedInstance].stepCount]];
     [sectionInfo addCell:stepcountCellInfo];
     [tableInfo insertSection:sectionInfo At:0];
@@ -369,23 +369,24 @@ CHDeclareMethod1(void, UILabel, setText, NSString *, text)
 
 CHConstructor // code block that runs immediately upon load
 {
-	@autoreleasepool
-	{
+    @autoreleasepool
+    {
         CHLoadLateClass(MicroMessengerAppDelegate);  // load class (that will be "available later")
-		CHHook2(MicroMessengerAppDelegate, application, didFinishLaunchingWithOptions); // register hook
+        CHHook2(MicroMessengerAppDelegate, application, didFinishLaunchingWithOptions); // register hook
         CHLoadLateClass(CMessageMgr);
         CHHook1(CMessageMgr, onRevokeMsg);
         CHLoadLateClass(FindFriendEntryViewController);
-        CHHook2(FindFriendEntryViewController, tableView, heightForRowAtIndexPath);
-        CHHook2(FindFriendEntryViewController, tableView, cellForRowAtIndexPath);
-        CHHook1(FindFriendEntryViewController, viewDidAppear);
+//        CHHook2(FindFriendEntryViewController, tableView, heightForRowAtIndexPath);
+//        CHHook2(FindFriendEntryViewController, tableView, cellForRowAtIndexPath);
+//        CHHook1(FindFriendEntryViewController, viewDidAppear);
         CHLoadLateClass(MMTabBarController);
-        CHHook2(MMTabBarController, setTabBarBadgeImage, forIndex);
-        CHHook2(MMTabBarController, setTabBarBadgeString, forIndex);
-        CHHook2(MMTabBarController, setTabBarBadgeValue, forIndex);
+//        CHHook2(MMTabBarController, setTabBarBadgeImage, forIndex);
+//        CHHook2(MMTabBarController, setTabBarBadgeString, forIndex);
+//        CHHook2(MMTabBarController, setTabBarBadgeValue, forIndex);
         CHLoadLateClass(WCDeviceStepObject);
         CHHook0(WCDeviceStepObject, m7StepCount);
         CHLoadLateClass(UIView);
-        CHHook1(UIView, didAddSubview);
-	}
+//        CHHook1(UIView, didAddSubview);
+    }
 }
+
